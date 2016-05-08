@@ -9,15 +9,18 @@ player.run_player()
 current_song='none'
 app = Flask(__name__)
 queuelist = ['q', 'Q', 'queue', 'Queue']
+playlistlist = ['p', '$', 'playlists', 'Playlists']
 
 class info():
     def __init__(self):
         self.current_song='none'
+        self.type = 'song'
         self.results=[]
 
     def refresh(self):
         print current_song
-        return render_template('index.html', title='test', song=self.current_song, results=self.results)
+        print 'type:', self.type
+        return render_template('index.html', title='test', song=self.current_song, results=self.results, res_type=self.type)
 
 make = info()
 
@@ -63,11 +66,19 @@ def search(search=''):
     if search == '':
         search = request.form['text']
     results=[]
-    if search in queuelist:
+    if search in playlistlist:
+        print 'looking in playlists'
+        make.type = 'playlist'
+        results = list(player.session.playlist_container)
+        print 'got result'
+        player.add = True
+    elif search in queuelist:
+        make.type = 'song'
         results = player.queue[0:player.queue_index]
         player.add = False
         print 'set add to False'    
     elif search != '':
+        make.type = 'song'
         player.add = True
         print 'set add to true'
         results = copy.copy(player.search(search))
@@ -83,6 +94,14 @@ def back():
 @app.route('/queue', methods=['POST'])
 def queue():
     song = str(request.form['song']).split("'")
+    if make.type == 'playlist':
+        print 'here'
+        playlist = player.session.get_playlist(song[1])
+        print 'got playlist'
+        playlist.load()
+        print 'loaded playlist'
+        [player.queue.insert(player.queue_index, track) for track in playlist.tracks]
+        return search('q')
     track = player.session.get_track(song[1])
     print player.add
     if player.add:
@@ -107,6 +126,12 @@ def rm_song(song):
 @app.route('/playnow', methods=['POST'])
 def playnow():
     song = str(request.form['song']).split("'")
+    if make.type == 'playlist':
+        playlist = str(request.form['song']).split("'")
+        playlist = player.session.get_playlist(playlist[1])
+        playlist.load()
+        [player.queue.insert(0, track) for track in playlist.tracks]
+        return search('q')
     track = player.session.get_track(song[1])
     if not player.add:
         rm_song(track)
@@ -114,6 +139,7 @@ def playnow():
     player.queue.insert(0, track)
     player.queue_index += 1
     return search('q')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

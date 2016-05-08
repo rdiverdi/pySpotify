@@ -26,8 +26,7 @@ class SpotifyPlayer():
         if new_vol < 0:
             new_vol = 0
         elif new_vol > 100:
-            new_vol = 100
-        self.vol = new_vol
+            self.vol = new_vol
         print self.vol
         self.m.setvolume(new_vol)
 
