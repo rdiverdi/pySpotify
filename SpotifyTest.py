@@ -15,7 +15,7 @@ class SpotifyPlayer():
         self.queue_index = 0
         self.played = []
         self.track = 'none'
-        self.m = alsaaudio.Mixer()
+        self.m = alsaaudio.Mixer('PCM')
         self.vol = self.m.getvolume()[0]
 
         self.add = True
@@ -89,8 +89,11 @@ class SpotifyPlayer():
         print 'waiting'
 
         print 'logged in'
-
-        playlist = self.session.playlist_container[-1]
+	try:
+	    playlist = self.session.playlist_container[-1]
+        except:
+            time.sleep(2)
+            playlist = self.session.playlist_container[-1]
         playlist.load()
         self.queue = [track for track in playlist.tracks]
         random.shuffle(self.queue)
