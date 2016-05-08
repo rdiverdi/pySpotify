@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>jukebox</title>
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/templates.css') }}">
+
+	</head>
+	<body>
+	<div class='controls'>
+		<font size='5' class='main' face='verdana'>
+			{{ song }}
+		</font>
+		<form method='post' class='main'>
+			<input id='button' formaction='/back' type='submit' value='|<'></input>
+			<input id='button' formaction='/pause' type='submit' value='ll'></input>
+			<input id='button' formaction='/play' type='submit' value='>'></input>
+			<input id='button' formaction='/skip' type='submit' value='>|'></input>
+		</form>
+	</div>
+	<div class='volume'>
+		<form method='post'>
+			<button id='volbutton' formaction='/vol' type='submit' name='vol' value=1> /\ </button>
+			<button id='volbutton' formaction='/vol' type='submit' name='vol' value=-1> \/ </button>
+		</form>
+	</div>
+		<form method='post' class='main'>
+			<input class='searchbar'type='text' placeholder='Search' name='text'></input>
+			<input class='searchbar' formaction='.' type='submit' value='Search'></input>
+		</form>
+		  {%- for song in results %}
+		  	<form method='post' class='results'>
+		    <button class='result' id='playnow' formaction='/playnow' type='submit' name='song' value={{song}}> > </input>
+		    <button class='result' id='name' formaction='/queue' type='submit' name='song' value={{song}}>{{song.name}}</button>
+		    <button class='result' id='artist' formaction='/queue' type='submit' name='song' value={{song}}>{{song.artists[0].name}}</button>
+		    <button class='result' id='time' formaction='/queue' type='submit' name='song' value={{song}}>{{((song.duration/1000)/60)|int}}:{{((song.duration/1000)%60)|int}}</button>
+			</form>
+		  {%- endfor %}
+	</body>
+</html>

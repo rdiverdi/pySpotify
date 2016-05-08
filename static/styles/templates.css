@@ -1,0 +1,62 @@
+body {
+	background-color: #666666;
+	color: black;
+	width: 500px;
+	font-size: 16;
+	font-family: 'arial';
+	text-align: center;
+}
+
+.volume {
+	text-align: left;
+	width: 30px;
+	position: absolute;
+	left: 385px;
+	top: 43px;
+}
+
+#volbutton {
+	position: relative;
+	left:15px;
+	width:30px;
+	height:30px;
+	background-color: #608913;
+	border-color: #81b71a;
+}
+
+.main {
+	padding-left: 0px;
+	text-align: center;
+	padding-top: 0px;
+}
+
+#button {
+	background-color: #608913;
+	border-color: #81b71a;
+	width: 40px;
+	height: 30px;
+}
+
+.searchbar {
+	font-size: 14;
+	height: 25px;
+	background-color: #777777;
+	border-color: #608913;
+}
+
+.result {
+	height: 23px;
+	font-size: 14;
+	background-color: #888888;
+	border-color: #608913;
+	padding-left: 5px;
+	text-align: left;
+}
+
+#playnow {width: 25px;}
+
+#name {width: 250px;}
+
+#artist {width: 150px;}
+
+#time {width: 60px;}
