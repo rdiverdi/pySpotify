@@ -26,7 +26,8 @@ class SpotifyPlayer():
         if new_vol < 0:
             new_vol = 0
         elif new_vol > 100:
-            self.vol = new_vol
+            new_vol = 100
+        self.vol = new_vol
         print self.vol
         self.m.setvolume(new_vol)
 
@@ -50,19 +51,13 @@ class SpotifyPlayer():
 
     def play_song(self, track):
         print track.name
-        track.load(timeout=5)
-        #self.session.player.prefetch(track)
+        track.load()
+        self.session.player.prefetch(track)
         self.session.player.load(track)
-	time.sleep(2)
         self.session.player.play()
         if self.queue_index > 0:
             self.queue_index -= 1
         self.played.append(track)
-	try:
-	    self.queue[0].load()
-	    self.session.player.prefetch(self.queue[0])
-	except:
-            pass
 
     def pause(self):
         self.session.player.pause()
@@ -96,11 +91,10 @@ class SpotifyPlayer():
         print 'logged in'
 	try:
 	    playlist = self.session.playlist_container[-1]
+            playlist.load(
+            self.queue = [track for track in playlist.tracks]
         except:
-            time.sleep(2)
-            playlist = self.session.playlist_container[-1]
-        playlist.load()
-        self.queue = [track for track in playlist.tracks]
+            self.queue = []
         random.shuffle(self.queue)
 
 from Tkinter import *

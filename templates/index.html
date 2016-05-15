@@ -28,11 +28,13 @@
 		</form>
 		  {%- for song in results %}
 		  	<form method='post' class='results'>
-		    <button class='result' id='playnow' formaction='/playnow' type='submit' name='song' value={{song}}> > </input>
+		    <button class='result' id='playnow' formaction='/playnow' type='submit' name='song' value={{song}}> > </button>
 		    <button class='result' id='name' formaction='/queue' type='submit' name='song' value={{song}}>{{song.name}}</button>
-		    <button class='result' id='artist' formaction='/queue' type='submit' name='song' value={{song}}>{{song.artists[0].name}}</button>
-		    <button class='result' id='time' formaction='/queue' type='submit' name='song' value={{song}}>{{((song.duration/1000)/60)|int}}:{{((song.duration/1000)%60)|int}}</button>
-			</form>
+		    {%- if res_type == "song" %}
+			    <button class='result' id='artist' formaction='/queue' type='submit' name='song' value={{song}}>{{song.artists[0].name}}</button>
+			    <button class='result' id='time' formaction='/queue' type='submit' name='song' value={{song}}>{{((song.duration/1000)/60)|int}}:{{((song.duration/1000)%60)|int}}</button>
+			{%- endif %}
+		  </form>
 		  {%- endfor %}
 	</body>
 </html>
