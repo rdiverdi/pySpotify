@@ -6,7 +6,7 @@ import copy
 
 player = SpotifyPlayer()
 player.run_player()
-current_song='none'
+#current_song='none'
 app = Flask(__name__)
 queuelist = ['q', 'Q', 'queue', 'Queue']
 playlistlist = ['p', '$', 'playlists', 'Playlists']
@@ -18,8 +18,12 @@ class info():
         self.results=[]
 
     def refresh(self):
-        print current_song
+        print self.current_song
         print 'type:', self.type
+        if player.track == 'none':
+            self.current_song = 'none'
+        else:
+            self.current_song = player.track.name
         return render_template('index.html', title='test', song=self.current_song, results=self.results, res_type=self.type)
 
 make = info()
@@ -47,7 +51,7 @@ def changevol():
 @app.route('/play', methods=['POST'])
 def play():
     player.play()
-    make.current_song = player.track.name
+    #make.current_song = player.track.name
     return redirect('/')
 
 @app.route('/pause', methods=['POST'])
@@ -58,7 +62,7 @@ def pause():
 @app.route('/skip', methods=['POST'])
 def skip():
     player.next_song()
-    make.current_song = player.track.name
+    #make.current_song = player.track.name
     return redirect('/')
 
 @app.route('/', methods=['POST'])
@@ -88,7 +92,7 @@ def search(search=''):
 @app.route('/back', methods=['POST'])
 def back():
     player.last_song()
-    make.current_song = player.track.name
+    #make.current_song = player.track.name
     return redirect('/')
 
 @app.route('/queue', methods=['POST'])
