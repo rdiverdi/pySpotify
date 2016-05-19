@@ -84,6 +84,7 @@ class SpotifyPlayer():
         login = open('login.txt', 'r') #login.txt should be your login with username on the top line and password next
         credentials = login.read().split('\n')
         self.session = spotify.Session()
+        self.session.set_cache_size(3000)
         audio = spotify.AlsaSink(self.session)
         loop = spotify.EventLoop(self.session)
         loop.start()
