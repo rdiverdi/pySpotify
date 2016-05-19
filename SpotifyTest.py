@@ -85,7 +85,7 @@ class SpotifyPlayer():
         credentials = login.read().split('\n')
         self.session = spotify.Session()
         self.session.set_cache_size(3000)
-        spotify.preferred_bitrate(self.session, 96)
+        self.session.preferred_bitrate(2)
         audio = spotify.AlsaSink(self.session)
         loop = spotify.EventLoop(self.session)
         loop.start()
