@@ -70,6 +70,8 @@ def search(search=''):
     if search == '':
         search = request.form['text']
     results=[]
+    if search == 'sudo reset':
+        player.reset()
     if search in playlistlist:
         print 'looking in playlists'
         make.type = 'playlist'

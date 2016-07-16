@@ -82,7 +82,7 @@ class SpotifyPlayer():
 
     def run_player(self):
         login = open('login.txt', 'r') #login.txt should be your login with username on the top line and password next
-        credentials = login.read().split('\n')
+        self.credentials = login.read().split('\n')
         config = spotify.Config()
 	config.cache_location = ""
 	config.initially_unload_playlists = True
@@ -93,7 +93,7 @@ class SpotifyPlayer():
         loop.start()
         self.session.on(spotify.SessionEvent.CONNECTION_STATE_UPDATED, self.is_loggedin)
         self.session.on(spotify.SessionEvent.END_OF_TRACK, self.is_song_end)
-        self.session.login(credentials[0], credentials[1])
+        self.session.login(self.credentials[0], self.credentials[1])
         self.logged_in_event.wait()
         print 'waiting'
 
@@ -106,6 +106,10 @@ class SpotifyPlayer():
         playlist.load()
         self.queue = [track for track in playlist.tracks]
         random.shuffle(self.queue)
+    def reset(self):
+        self.session.logout()
+        self.session.login(self.credentials[0], self.credentials[1])
+        print 'reset login'
 
 from Tkinter import *
 
