@@ -83,8 +83,10 @@ class SpotifyPlayer():
     def run_player(self):
         login = open('login.txt', 'r') #login.txt should be your login with username on the top line and password next
         credentials = login.read().split('\n')
-        self.session = spotify.Session()
-        self.session.set_cache_size(3000)
+        config = spotify.Config()
+	config.cache_location = ""
+	config.initially_unload_playlists = True
+	self.session = spotify.Session()
         self.session.preferred_bitrate(2)
         audio = spotify.AlsaSink(self.session)
         loop = spotify.EventLoop(self.session)
@@ -167,6 +169,7 @@ class SpotifyWidgit():
         if search in playlistlist:
             result = self.player.session.playlist_container
             self.setup_search_result(result, 'playlists')
+
         elif search in queuelist:
             result = self.player.queue[0:self.player.queue_index]
             self.setup_search_result(result, 'songs')
