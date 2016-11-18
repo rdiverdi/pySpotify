@@ -10,7 +10,8 @@ Note: this requires spotify premium (see Install).
 1. Clone this repository
 2. Download a spotify developer's key and put the .key file in the repository
 3. Make a file called `login.txt` and enter your email and password in consecutive lines
-  ```
+
+```
   <email>
   <passowrd
-  ```
+```
