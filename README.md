@@ -13,5 +13,5 @@ Note: this requires spotify premium (see Install).
 
   ```
   <email>
-  <passowrd
+  <password>
   ```
